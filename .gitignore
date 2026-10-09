@@ -1,0 +1,45 @@
+# Node
+node_modules/
+npm-debug.log*
+
+# Veritabanı (sunucuda oluşturulur)
+data/
+
+# Büyük oyun varlıkları — repo'ya girmesin
+*.unityweb
+*.data
+*.data.unityweb
+*.wasm
+*.wasm.code.unityweb
+*.wasm.framework.unityweb.js
+*.mem
+*.swf
+*.z64
+*.gba
+*.nes
+*.sav
+*.iso
+
+# Build çıktıları
+*/Build/
+*/Release/
+ruffle/
+webretro/
+emulatorjs/
+gba/
+
+# Geçici
+*.log
+tunnel.log
+LINK.txt
+duckdns-update.bat
+start-awzers.bat
+
+# Yedekler
+selenite-backup-*/
+bg.jpg
+snowrider3d/snow.wasm
+js/all.js.orig.bak
+
+# Scriptler
+scripts/

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="tr" class="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>awzers</title>
+<link rel="icon" href="/favicon.ico">
+<link rel="stylesheet" href="/app.css?v=3">
+</head>
+<body>
+
+<!-- ============ AUTH EKRANI ============ -->
+<div id="auth-screen" class="auth-screen hidden">
+  <div class="auth-bg">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <div class="auth-card">
+    <div class="auth-logo">
+      <div class="logo-mark">
+        <svg viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 20 L12 8 L20 20 L28 8"/>
+          <path d="M4 26 L12 16 L20 26 L28 16" opacity="0.5"/>
+        </svg>
+      </div>
+      <h1 class="rgb-text">awzers</h1>
+      <p class="tagline">Devam etmek için giriş yap</p>
+    </div>
+
+    <div class="auth-tabs">
+      <button class="auth-tab active" data-tab="login">Giriş Yap</button>
+      <button class="auth-tab" data-tab="register">Kayıt Ol</button>
+    </div>
+
+    <form id="login-form" class="auth-form">
+      <div class="field">
+        <label for="login-user">Kullanıcı Adı</label>
+        <input id="login-user" type="text" autocomplete="username" required placeholder="kullanıcı adın">
+      </div>
+      <div class="field">
+        <label for="login-pass">Şifre</label>
+        <div class="pass-wrap">
+          <input id="login-pass" type="password" autocomplete="current-password" required placeholder="şifren">
+          <button type="button" class="pass-toggle" data-target="login-pass">göster</button>
+        </div>
+      </div>
+      <div id="login-error" class="form-error"></div>
+      <button type="submit" class="btn btn-primary btn-block">Giriş Yap</button>
+    </form>
+
+    <form id="register-form" class="auth-form hidden">
+      <div class="field">
+        <label for="reg-user">Kullanıcı Adı</label>
+        <input id="reg-user" type="text" autocomplete="username" required placeholder="3-20 karakter, harf/rakam/_">
+      </div>
+      <div class="field">
+        <label for="reg-pass">Şifre</label>
+        <div class="pass-wrap">
+          <input id="reg-pass" type="password" autocomplete="new-password" required placeholder="en az 6 karakter">
+          <button type="button" class="pass-toggle" data-target="reg-pass">göster</button>
+        </div>
+      </div>
+      <div class="field">
+        <label for="reg-pass2">Şifre Tekrar</label>
+        <input id="reg-pass2" type="password" autocomplete="new-password" required placeholder="şifreyi doğrula">
+      </div>
+      <div id="reg-error" class="form-error"></div>
+      <button type="submit" class="btn btn-primary btn-block">Hesap Oluştur</button>
+    </form>
+  </div>
+</div>
+
+<!-- ============ ANA UYGULAMA ============ -->
+<div id="app" class="app hidden">
+
+  <!-- Üst bar -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <div class="logo-mark small">
+        <svg viewBox="0 0 32 32" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 20 L12 8 L20 20 L28 8"/>
+          <path d="M4 26 L12 16 L20 26 L28 16" opacity="0.5"/>
+        </svg>
+      </div>
+      <span class="brand rgb-text">awzers</span>
+    </div>
+    <div class="topbar-center">
+      <div class="search-box">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        <input id="game-search" type="text" placeholder="Oyun ara...">
+      </div>
+    </div>
+    <div class="topbar-right">
+      <button id="admin-btn" class="btn btn-ghost admin-only hidden">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Admin Panel
+      </button>
+      <div class="user-chip" id="user-chip">
+        <div class="avatar" id="user-avatar">?</div>
+        <div class="user-meta">
+          <span id="user-name">...</span>
+          <span class="user-role" id="user-role">user</span>
+        </div>
+        <button id="logout-btn" class="btn-icon" title="Çıkış yap">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Oyun ızgarası -->
+  <main class="main" id="main">
+    <!-- ÖNERİLER EN ÜSTTE -->
+    <div id="recommended-section" class="section hidden">
+      <div class="section-head">
+        <h2>⭐ Önerilenler</h2>
+      </div>
+      <div id="recommended-grid" class="games-grid"></div>
+    </div>
+
+    <div class="section-head" style="margin-top:26px">
+      <h2>Tüm Oyunlar</h2>
+      <div class="filter-row" id="filter-row">
+        <button class="chip active" data-filter="all">Tümü</button>
+        <button class="chip" data-filter="recommended">Önerilenler</button>
+      </div>
+    </div>
+    <div id="games-grid" class="games-grid"></div>
+    <button id="load-more-btn" class="load-more-btn hidden" onclick="loadMoreGames()">Daha Fazla Yükle</button>
+    <div id="games-empty" class="empty-state hidden">Aramanla eşleşen oyun yok.</div>
+  </main>
+
+  <!-- ============ HİLE MENÜSÜ (sadece admin) ============ -->
+  <div id="cheat-panel" class="cheat-panel hidden">
+    <div class="cheat-head" id="cheat-drag">
+      <span class="cheat-title">⚡ Hileler</span>
+      <div class="cheat-head-actions">
+        <button id="cheat-min" class="btn-icon" title="Küçült">–</button>
+        <button id="cheat-close" class="btn-icon" title="Kapat">×</button>
+      </div>
+    </div>
+    <div class="cheat-body" id="cheat-body">
+      <p class="cheat-game" id="cheat-game-name"></p>
+      <div id="cheat-list" class="cheat-list"></div>
+    </div>
+  </div>
+
+  <!-- ============ OYUN MODALI ============ -->
+  <div id="game-modal" class="modal hidden">
+    <div class="modal-backdrop" id="modal-backdrop"></div>
+    <div class="modal-content">
+      <div class="modal-bar">
+        <span id="modal-title">Oyun</span>
+        <div class="modal-bar-actions">
+          <button id="modal-fullscreen" class="btn-icon" title="Tam ekran">⛶</button>
+          <button id="modal-close" class="btn-icon" title="Kapat">×</button>
+        </div>
+      </div>
+      <iframe id="game-frame" class="game-frame" allow="autoplay; fullscreen; gamepad; microphone; camera; xr-spatial-tracking" allowfullscreen></iframe>
+    </div>
+  </div>
+
+  <!-- ============ ADMİN PANEL ============ -->
+  <div id="admin-panel" class="admin-panel hidden">
+    <div class="modal-backdrop" id="admin-backdrop"></div>
+    <div class="admin-sheet">
+      <div class="admin-head">
+        <h2>Admin Paneli</h2>
+        <button id="admin-close" class="btn-icon">×</button>
+      </div>
+
+      <div class="admin-tabs">
+        <button class="admin-tab active" data-atab="stats">Genel</button>
+        <button class="admin-tab" data-atab="users">Kullanıcılar</button>
+        <button class="admin-tab" data-atab="games">Oyun Yönetimi</button>
+        <button class="admin-tab" data-atab="ipbans">IP Ban</button>
+        <button class="admin-tab" data-atab="logs">Kayıtlar</button>
+      </div>
+
+      <!-- STATS -->
+      <div class="admin-page" data-apage="stats">
+        <div class="stat-cards" id="stat-cards"></div>
+        <div class="maintenance-box">
+          <div>
+            <h3>🔧 Bakım Modu</h3>
+            <p style="color:var(--text-dim);font-size:13px;margin-top:4px">Açıkken siteye giren herkes (adminler hariç) bakım ekranı görür.</p>
+          </div>
+          <button id="maintenance-toggle" class="btn btn-danger">Bakım Modunu Aç</button>
+        </div>
+      </div>
+
+      <!-- USERS -->
+      <div class="admin-page hidden" data-apage="users">
+        <form id="user-create-form" class="inline-form">
+          <input id="new-username" type="text" placeholder="Kullanıcı adı" required>
+          <input id="new-password" type="password" placeholder="Şifre" required>
+          <select id="new-role"><option value="user">Kullanıcı</option><option value="admin">Admin</option></select>
+          <button type="submit" class="btn btn-primary">Ekle</button>
+        </form>
+        <div class="table-wrap">
+          <table class="admin-table" id="users-table">
+            <thead><tr><th>ID</th><th>Kullanıcı</th><th>Rol</th><th>Durum</th><th>Son Giriş</th><th>İşlem</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- GAMES -->
+      <div class="admin-page hidden" data-apage="games">
+        <form id="game-create-form" class="inline-form">
+          <input id="new-game-name" type="text" placeholder="Oyun adı" required>
+          <input id="new-game-dir" type="text" placeholder="Klasör (örn: slope)" required>
+          <input id="new-game-img" type="text" placeholder="Resim (varsayılan cover.svg)">
+          <label class="check-inline"><input id="new-game-rec" type="checkbox"> Önerilen</label>
+          <button type="submit" class="btn btn-primary">Ekle</button>
+        </form>
+        <div class="table-wrap">
+          <table class="admin-table" id="games-table">
+            <thead><tr><th>ID</th><th>Ad</th><th>Klasör</th><th>Önerilen</th><th>Gizli</th><th>İşlem</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- IP BANS -->
+      <div class="admin-page hidden" data-apage="ipbans">
+        <form id="ipban-create-form" class="inline-form">
+          <input id="new-ipban-ip" type="text" placeholder="IP adresi (örn: 1.2.3.4)" required>
+          <input id="new-ipban-reason" type="text" placeholder="Sebep (opsiyonel)">
+          <button type="submit" class="btn btn-danger">IP Banla</button>
+        </form>
+        <p style="color:var(--text-dim);font-size:12.5px;margin-bottom:12px">Banlanan IP siteye hiç giremez (oyunlar, API dahil).</p>
+        <div class="table-wrap">
+          <table class="admin-table" id="ipbans-table">
+            <thead><tr><th>ID</th><th>IP</th><th>Sebep</th><th>Tarih</th><th>İşlem</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- LOGS -->
+      <div class="admin-page hidden" data-apage="logs">
+        <div class="table-wrap">
+          <table class="admin-table" id="logs-table">
+            <thead><tr><th>Zaman</th><th>Kullanıcı</th><th>İşlem</th><th>Hedef</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="toast hidden"></div>
+</div>
+
+<script src="/app.js?v=4"></script>
+</body>
+</html>
