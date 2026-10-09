@@ -1,18 +1,21 @@
 {
-  "name": "Bigfoot Games",
+  "name": "awzers",
   "version": "1.0.0",
+  "description": "awzers - unblocked games site",
+  "main": "server.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
     "better-sqlite3": "^13.0.3",
     "compression": "^1.8.2",
-    "connect-sqlite3": "^0.9.18",
     "express": "^4.17.1",
     "express-session": "^1.19.0",
     "http-proxy-middleware": "^4.2.0",
-    "memorystore": "^1.6.8",
-    "nat-upnp": "^1.1.1"
+    "memorystore": "^1.6.8"
   }
 }
